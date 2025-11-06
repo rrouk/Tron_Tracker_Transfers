@@ -1,1 +1,6 @@
 .env
+data/user_data.db
+data/user_data.db-shm
+data/user_data.db-wal
+
+
