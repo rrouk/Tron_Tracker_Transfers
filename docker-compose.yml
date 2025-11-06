@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  trontracker:
+    # Имя образа, который будет создан (например, my-tron-bot)
+    build: .
+    image: tron_tracker 
+    container_name: tron_tx_tracker_bot
+    # Перезапускать контейнер всегда, если он не был остановлен вручную
+    restart: always
+    # Указываем, откуда брать переменные окружения
+    env_file:
+      - .env
+#    environment:
+#      - http_proxy=http://xray-client:3128
+#      - https_proxy=http://xray-client:3128
+#      - HTTP_PROXY=http://xray-client:3128
+#      - HTTPS_PROXY=http://xray-client:3128
+    # Пробрасываем директории, чтобы данные и логи сохранялись на хост-машине
+    volumes:
+      # Сохранение данных user_data.json
+      - ./data:/app/data
+      # Сохранение логов Energy_Error.log
+      - ./log:/app/log
+    # Ограничения на ресурсы (опционально, но полезно)
+#    networks:
+#      - proxy-net
+    deploy:
+      resources:
+        limits:
+          memory: 150M
+
+
+#networks:
+#  proxy-net:
+#    external: true
