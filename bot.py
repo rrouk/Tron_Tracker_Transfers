@@ -1095,7 +1095,8 @@ async def process_user_transactions(user_data):
                                         f"▫ {signer_address_text}\n"
                                         f"▫ Дата: `{date}`\n"
                                         f"▫ [Просмотр транзакции]({tx_link})\n"
-                                        f"▫ Хештег: {hash_hash}{hashtag}"
+                                        f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                        f"▫ TXID: `{tx_id}`"
                                     )
                                     await post_admin_group(msg, chat_id, 1)
                                     await app.bot.send_message(chat_id, msg, parse_mode="Markdown")
@@ -1122,7 +1123,8 @@ async def process_user_transactions(user_data):
                                         f"▫ {signer_address_text}\n"
                                         f"▫ Дата: `{date}`\n"
                                         f"▫ [Просмотр транзакции]({tx_link})\n"
-                                        f"▫ Хештег: {hash_hash}{hashtag}"
+                                        f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                        f"▫ TXID: `{tx_id}`"
                                     )
                                     await post_admin_group(msg, chat_id, 4) # постим в тред bw 
                                     await app.bot.send_message(chat_id, msg, parse_mode="Markdown")
@@ -1154,7 +1156,8 @@ async def process_user_transactions(user_data):
                                         f"▫ Сумма: `{format_peremen(amount)}` TRX\n"
                                         f"▫ Дата: `{date}`\n"
                                         f"▫ [Просмотр транзакции]({tx_link})\n"
-                                        f"▫ Хештег: {hash_hash}{hashtag}"
+                                        f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                        f"▫ TXID: `{tx_id}`"
                                     )
                                     await post_admin_group(msg, chat_id, 2)
                                     await app.bot.send_message(chat_id, msg, parse_mode="Markdown")
@@ -1234,7 +1237,9 @@ async def process_user_transactions(user_data):
                                 f"▫ Сумма: `{format_peremen(amount_usdt)}` USDT\n"
                                 f"▫ Дата: `{date}`\n"
                                 f"▫ [Просмотр транзакции]({tx_link})\n"
-                                f"▫ Хештег: {hash_hash}{hashtag}"
+                                f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                f"▫ TXID: `{tx_id}`"
+
                             )
 
                             await post_admin_group(msg, chat_id, 3)
