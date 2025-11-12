@@ -594,7 +594,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
     chat_id = str(update.effective_chat.id)
-    
+    parse_mode = 'Markdown'
+
     # ИСПРАВЛЕНО: Убеждаемся, что пользователь есть в БД и загружаем данные из БД
     await ensure_user_exists(chat_id) 
     user_data = await get_user_data(chat_id) # Получаем актуальные данные из БД
@@ -701,16 +702,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif text == "📋 Список адресов TRON":
         addresses = user_data.get("addresses", {})
         if addresses:
-            msg = "📌 Ваши адреса:\n" + "\n".join(addresses.keys())
+            msg = "📌 Ваши адреса:\n" + "\n".join([f"`{addr}`" for addr in addresses])
         else:
             msg = "⚠️ Вы не добавили ни одного адреса."
-        await update.message.reply_text(msg)
+        await update.message.reply_text(msg, parse_mode=parse_mode)
         await start(update, context)
 
     elif text == "👁 Показать TronGrid API ключ":
         key = user_data.get("trongrid_api_key")
         if key:
-            await update.message.reply_text(f"🔑 Ваш TronGrid API ключ:\n{key}")
+            await update.message.reply_text(f"🔑 Ваш TronGrid API ключ:\n`{key}`", parse_mode=parse_mode)
             await start(update, context)
         else:
             await update.message.reply_text("⚠️ Вы не добавили TronGrid API ключ.")
@@ -1091,11 +1092,12 @@ async def process_user_transactions(user_data):
                                         f"▫ Кому: {hash_hash}{to_address}\n"
                                         f"▫ Сумма: `{format_peremen(deleg_in_energy)}` Energy\n"
                                         f"▫ Эквивалент: `{format_peremen(deleg_in_trx)}` TRX\n"
-                                        f"▫ Остаток: `{format_peremen(unused_slot_energy)}` TRX | `{format_peremen(free_energy)}` Energy\n"
+                                        f"▫ Остаток: `{format_peremen(free_energy)}` Energy\n"
+                                        f"▫ Остаток: `{format_peremen(unused_slot_energy)}` TRX\n"
                                         f"▫ {signer_address_text}\n"
                                         f"▫ Дата: `{date}`\n"
-                                        f"▫ [Просмотр транзакции]({tx_link})\n"
                                         f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                        f"▫ [Просмотр TXID]({tx_link})\n"
                                         f"▫ TXID: `{tx_id}`"
                                     )
                                     await post_admin_group(msg, chat_id, 1)
@@ -1119,11 +1121,12 @@ async def process_user_transactions(user_data):
                                         f"▫ Кому: {hash_hash}{to_address}\n"
                                         f"▫ Сумма: `{format_peremen(deleg_in_bw)}` Bandwidth\n"
                                         f"▫ Эквивалент: `{format_peremen(deleg_in_trx)}` TRX\n"
-                                        f"▫ Остаток: `{format_peremen(unused_slot_bw)}` TRX | `{format_peremen(free_bw)}` Bandwidth\n"
+                                        f"▫ Остаток: `{format_peremen(free_bw)}` Bandwidth\n"
+                                        f"▫ Остаток: `{format_peremen(unused_slot_bw)}` TRX\n"
                                         f"▫ {signer_address_text}\n"
                                         f"▫ Дата: `{date}`\n"
-                                        f"▫ [Просмотр транзакции]({tx_link})\n"
                                         f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                        f"▫ [Просмотр TXID]({tx_link})\n"
                                         f"▫ TXID: `{tx_id}`"
                                     )
                                     await post_admin_group(msg, chat_id, 4) # постим в тред bw 
@@ -1155,8 +1158,8 @@ async def process_user_transactions(user_data):
                                         f"▫ Кому: {hash_hash}{to_address}\n"
                                         f"▫ Сумма: `{format_peremen(amount)}` TRX\n"
                                         f"▫ Дата: `{date}`\n"
-                                        f"▫ [Просмотр транзакции]({tx_link})\n"
                                         f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                        f"▫ [Просмотр TXID]({tx_link})\n"
                                         f"▫ TXID: `{tx_id}`"
                                     )
                                     await post_admin_group(msg, chat_id, 2)
@@ -1236,8 +1239,8 @@ async def process_user_transactions(user_data):
                                 f"▫ Кому: {hash_hash}{to_address}\n"
                                 f"▫ Сумма: `{format_peremen(amount_usdt)}` USDT\n"
                                 f"▫ Дата: `{date}`\n"
-                                f"▫ [Просмотр транзакции]({tx_link})\n"
                                 f"▫ Хештег: {hash_hash}{hashtag}\n"
+                                f"▫ [Просмотр TXID]({tx_link})\n"
                                 f"▫ TXID: `{tx_id}`"
 
                             )
